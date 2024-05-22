@@ -23,20 +23,24 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 ;-------------------------------------------------------------------------------
 ; Main loop here
 ;-------------------------------------------------------------------------------
-
 init:
 			BIC.W	#0001h, &PM5CTL0		; Disable the GPIO power-on default high-Z mode
-			BIS.B	#01h, &P1DIR			; Set P1.0 as an output. P1.0 is LED1
 
+			BIS.B	#BIT0, &P1DIR			; Set P1.0 as an output. (LED1)
+			BIS.B	#BIT6, &P6DIR			; Set P6.6. as an output (LED2)
+
+			BIC.B	#BIT0, &P1OUT			; Set P1.0 to low initially (LED1 off)
+			BIS.B	#BIT6, &P6OUT			; Set P6.6 to high initially (LED2 on)
 main:
-			XOR.B	#01h, &P1OUT			; Toggle P1.0 (LED1)
+			XOR.B	#BIT0, &P1OUT			; Toggle P1.0 (LED1)
+			XOR.B	#BIT6, &P6OUT			; Toggle P6.6 (LED2)
+
 			MOV.W	#0FFFFh, R4				; Put a big number into R4
 delay:
 			DEC.W	R4						; Decrement R4
 			JNZ		delay					; Repeat until R4 is 0
 
 			jmp 	main					; Repeat main loop forever
-                                            
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
 ;-------------------------------------------------------------------------------
