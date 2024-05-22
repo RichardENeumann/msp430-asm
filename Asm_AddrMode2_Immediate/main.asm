@@ -23,8 +23,18 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 ;-------------------------------------------------------------------------------
 ; Main loop here
 ;-------------------------------------------------------------------------------
+main:
+			MOV.W	#1234h, R4				; put the hex value 1234h into R4
+			MOV.W	#0FACEh, R5				; put the hex value FACEh into R5
 
-                                            
+			MOV.B	#99h, R6				; put the hex value 99h into R6
+			MOV.B	#0EEh, R7				; put the hex value 0EEh into R7
+
+			MOV.W	#371, R8				; put the decimal value 371 into R8
+			MOV.B	#10101010b, R9			; put the binary value 10101010 into R9
+			MOV.B	#'B', R10				; ASCII code for B (42h) into R10
+
+			JMP 	main					; Loop forever
 
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
@@ -37,4 +47,3 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 ;-------------------------------------------------------------------------------
             .sect   ".reset"                ; MSP430 RESET Vector
             .short  RESET
-            
