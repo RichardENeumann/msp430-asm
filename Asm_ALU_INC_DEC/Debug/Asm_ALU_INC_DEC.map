@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker Unix v21.6.1                   
 ******************************************************************************
->> Linked Wed Jun  5 13:54:35 2024
+>> Linked Wed Jun  5 14:00:47 2024
 
 OUTPUT FILE NAME:   <Asm_ALU_INC_DEC.out>
 ENTRY POINT SYMBOL: "RESET"  address: 00008000
@@ -16,8 +16,8 @@ MEMORY CONFIGURATION
   INFO                  00001800   00000200  00000000  00000200  RWIX
   TLVMEM                00001a00   00000200  00000000  00000200  RWIX
   BOOTCODE              00001c00   00000400  00000000  00000400  RWIX
-  RAM                   00002000   00001000  00000000  00001000  RWIX
-  FRAM                  00008000   00007f80  00000026  00007f5a  RWIX
+  RAM                   00002000   00001000  00000006  00000ffa  RWIX
+  FRAM                  00008000   00007f80  00000038  00007f48  RWIX
   JTAGSIGNATURE         0000ff80   00000004  00000004  00000000  RWIX  ffff 
   BSLSIGNATURE          0000ff84   00000004  00000004  00000000  RWIX  ffff 
   BSLCONFIGURATIONSIGNA 0000ff88   00000002  00000002  00000000  RWIX  ffff 
@@ -103,12 +103,15 @@ section   page    origin      length       input sections
 
 .const     0    00008000    00000000     UNINITIALIZED
 
-.text      0    00008000    0000001e     
-                  00008000    0000001e     main.obj (.text)
+.text      0    00008000    00000030     
+                  00008000    00000030     main.obj (.text)
 
 .text:_isr 
-*          0    0000801e    00000008     
-                  0000801e    00000008     rts430x_sc_sd_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00008030    00000008     
+                  00008030    00000008     rts430x_sc_sd_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+
+.data      0    00002000    00000006     
+                  00002000    00000006     main.obj (.data)
 
 .stack     0    00003000    00000000     
 
@@ -218,9 +221,9 @@ MODULE SUMMARY
        Module             code   ro data   rw data
        ------             ----   -------   -------
     ./
-       main.obj           30     2         0      
+       main.obj           48     2         6      
     +--+------------------+------+---------+---------+
-       Total:             30     2         0      
+       Total:             48     2         6      
                                                   
     /home/richard/ti/ccs1271/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib/rts430x_sc_sd_eabi.lib
        isr_trap.asm.obj   8      0         0      
@@ -252,7 +255,7 @@ MODULE SUMMARY
        Total:             8      48        0      
                                                   
     +--+------------------+------+---------+---------+
-       Grand Total:       38     50        0      
+       Grand Total:       56     50        6      
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
@@ -1168,7 +1171,7 @@ address   name
 000001cc  WDTCTL_L                       
 00003000  __STACK_END                    
 00000000  __STACK_SIZE                   
-0000801e  __TI_ISR_TRAP                  
+00008030  __TI_ISR_TRAP                  
 0000ffce  __TI_int22                     
 0000ffd0  __TI_int23                     
 0000ffd2  __TI_int24                     
@@ -2124,7 +2127,7 @@ address   name
 00008000  RESET                          
 00008000  fram_rw_start                  
 00008000  fram_rx_start                  
-0000801e  __TI_ISR_TRAP                  
+00008030  __TI_ISR_TRAP                  
 0000ffce  __TI_int22                     
 0000ffd0  __TI_int23                     
 0000ffd2  __TI_int24                     

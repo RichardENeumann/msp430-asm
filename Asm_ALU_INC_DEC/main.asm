@@ -20,9 +20,9 @@ RESET       mov.w   #__STACK_END,SP         ; Initialize stackpointer
 StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 
 
-;-------------------------------------------------------------------------------
-; Main loop here
-;-------------------------------------------------------------------------------
+;-----------
+; main loop
+;-----------
 main:
          MOV		#0, R4
          INC		R4
@@ -35,8 +35,31 @@ main:
          DECD		R4
          DECD		R4
 
+         MOV		#Consts, R5
+
+         MOV.B		@R5, R6
+         INC		R5
+
+         MOV.B		@R5, R7
+         INC		R5
+
+         MOV		@R5, R8
+         INCD		R5
+
+         MOV		@R5, R9
+
          JMP		main
-                                            
+
+;--------
+; malloc
+;--------
+		.data
+		.retain
+
+Consts:	.short		1234h
+		.short		5678h
+		.short		9ABCh
+
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
 ;-------------------------------------------------------------------------------
